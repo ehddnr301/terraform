@@ -5,20 +5,10 @@ provider "google" {
   credentials = file("${path.module}/bright-eon-368611-9c76303809ff.json")
 }
 
-resource "google_compute_instance" "vm_instance" {
-  name         = "terraform-instance"
-  machine_type = "e2-micro"
+data "google_compute_instance" "foo" {
+  name = "instance-1"
+}
 
-  boot_disk {
-    initialize_params {
-      image = "debian-cloud/debian-11"
-    }
-  }
-
-  network_interface {
-    # A default network is created for all GCP projects
-    network = "default"
-    access_config {
-    }
-  }
+output "my_vm_list" {
+  value = "${data.google_compute_instance.foo.*}"
 }
